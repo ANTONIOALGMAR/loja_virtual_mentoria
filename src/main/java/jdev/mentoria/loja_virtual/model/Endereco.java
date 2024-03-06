@@ -6,6 +6,8 @@ import java.util.Objects;
 import jakarta.annotation.Generated;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jdev.mentoria.loja_virtual.enums.TipoEndereco;
 
 @Entity
 @Table(name = "endereco")
@@ -44,6 +47,17 @@ public class Endereco implements Serializable{
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa"))
 	private Pessoa pessoa;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoEndereco tipoEndereco;
+	
+	public void setTipoEndereco(TipoEndereco tipoEndereco) {
+		this.tipoEndereco = tipoEndereco;
+	}
+	
+	public TipoEndereco getTipoEndereco() {
+		return tipoEndereco;
+	}
 
 	public Long getId() {
 		return id;
