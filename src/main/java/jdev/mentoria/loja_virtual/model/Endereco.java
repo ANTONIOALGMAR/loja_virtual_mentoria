@@ -3,6 +3,7 @@ package jdev.mentoria.loja_virtual.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.annotation.Generated;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
@@ -12,11 +13,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "pessoa_juridica")
-@PrimaryKeyJoinColumn(name = "id")
+@Table(name = "endereco")
+@SequenceGenerator(name = "seq_endereco", sequenceName = "seq_endereco", allocationSize = 1, initialValue = 1)
 public class Endereco implements Serializable{
 
 	private static final long serialVersionUID = 1L;
