@@ -1,5 +1,6 @@
 package jdev.mentoria.loja_virtual.security;
 
+import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +11,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
 import jdev.mentoria.loja_virtual.ApplicationContextLoad;
 import jdev.mentoria.loja_virtual.model.Usuario;
 import jdev.mentoria.loja_virtual.repository.UsuarioRepository;
@@ -60,9 +63,11 @@ public class JWTTokenAutenticacaoService {
 	
 	/* RETORNA O USUARIO VALIDADO COM TOKEN OU CASO NAO SEJA VALIDO RETORNA NULL */
 	
-	public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
+	public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		String token = request.getHeader(HEADER_STRING);
+		
+		try {
 		
 		if(token != null){
 			
@@ -91,6 +96,17 @@ public class JWTTokenAutenticacaoService {
 			
 		}
 			
+		}
+		
+		}catch (SignatureException e) {
+			response.getWriter().write("Token está inválido.");
+			
+		}catch (ExpiredJwtException e) {
+			response.getWriter().write("Token está Expirado, efetue o login novamente.");
+			
+			
+		}finally {
+			liberacaoCors(response);
 		}
 		
 		liberacaoCors(response);
