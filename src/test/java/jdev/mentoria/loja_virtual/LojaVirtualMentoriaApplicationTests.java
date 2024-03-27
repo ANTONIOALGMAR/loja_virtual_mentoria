@@ -1,10 +1,12 @@
 package jdev.mentoria.loja_virtual;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -22,6 +24,7 @@ import jdev.mentoria.loja_virtual.model.Acesso;
 import jdev.mentoria.loja_virtual.repository.AcessoRepository;
 import junit.framework.TestCase;
 
+@Profile("test")
 @SpringBootTest(classes = LojaVirtualMentoriaApplication.class)
 public class LojaVirtualMentoriaApplicationTests extends TestCase {
 	
@@ -45,7 +48,7 @@ public class LojaVirtualMentoriaApplicationTests extends TestCase {
 	    
 	    Acesso acesso = new Acesso();
 	    
-	    acesso.setDescricao("ROLE_COMPRADOR");
+	    acesso.setDescricao("ROLE_COMPRADOR" + Calendar.getInstance().getTimeInMillis());
 	    
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    
@@ -208,9 +211,11 @@ public class LojaVirtualMentoriaApplicationTests extends TestCase {
 	@Test
 	public void testCadastraAcesso() throws ExceptionMentoriaJava {
 		
+		String descacesso = "ROLE_ADMIN" + Calendar.getInstance().getTimeInMillis();
+		
 		Acesso acesso = new Acesso();
 		
-		acesso.setDescricao("ROLE_ADMIN");
+		acesso.setDescricao(descacesso);
 		
 		assertEquals(true, acesso.getId() == null);
 
@@ -220,7 +225,7 @@ public class LojaVirtualMentoriaApplicationTests extends TestCase {
 		assertEquals(true, acesso.getId() > 0);
 		
 		/*Validar dados salvos da forma correta*/
-		assertEquals("ROLE_ADMIN", acesso.getDescricao());
+		assertEquals(descacesso, acesso.getDescricao());
 		
 		/*Teste de carregamento*/
 		
